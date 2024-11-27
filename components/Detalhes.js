@@ -1,5 +1,6 @@
 import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
 
+import Lista from "./Lista";
 import logoCart from "../assets/carrinho.jpg";
 
 //imports das lista
@@ -12,6 +13,7 @@ import disco from "../assets/disco.png";
 import piston from "../assets/piston.png";
 import bater from "../assets/bater.png";
 import radiador from "../assets/radiador.png";
+import CustomButton from "./CustomButton";
 
 const products = [
   [pneu, "Pneu", 249.4],
@@ -24,9 +26,6 @@ const products = [
   [bater, "Bateria", 360.6],
   [radiador, "Radiador", 170],
 ];
-
-//somando o total da lista
-const total = products.reduce((soma, produto) => soma + produto[2], 0);
 
 function Detalhes(){
     return (
@@ -42,16 +41,10 @@ function Detalhes(){
         <Text style={styles.description}>
           A loja de autopecas das melhores marcas pare seu veiculo!
         </Text>
-        <ScrollView style={styles.scrollViewContainer}>
-          {products.map((item, index) => (
-            <View key={index} style={styles.productItem}>
-              <Image source={item[0]} style={styles.scrollImages} />
-              <Text style={styles.name}>{item[1]}</Text>
-              <Text style={styles.scrollPrices}>R$ {item[2].toFixed(2)}</Text>
-            </View>
-          ))}
-        </ScrollView>
-        <Text style={styles.price}>Total: R$ ${total.toFixed(2)}</Text>
+        <Lista />
+        <View style={styles.buttonContainer}>
+          <CustomButton>Comprar</CustomButton>
+        </View>
       </>
     );
 }
@@ -77,37 +70,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     padding: 5,
   },
-  scrollViewContainer: {
-    flex: 1,
-  },
-  productItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#ffffff",
-    padding: 8,
-    borderBottomColor: "grey",
-    borderBottomWidth: 0.5,
-  },
-  scrollImages: {
-    width: 50,
-    height: 50,
-    marginRight: 16,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold",
-    flex: 1,
-  },
-  scrollPrices: {
-    fontSize: 16,
-    color: "#888888",
-  },
-  price: {
-    padding: 10,
-    color: "green",
-    fontWeight: "bold",
-    fontSize: 20,
-    textAlign: "right",
-  },
+  buttonContainer: {
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  }
 })
