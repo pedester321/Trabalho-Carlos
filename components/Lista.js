@@ -1,4 +1,7 @@
-import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView, FlatList } from "react-native";
+import React, { useState } from "react";
+
+import CampoInteiro from "./CampoInteiro";
 
 //imports das lista
 import pneu from "../assets/pneu2.png";
@@ -27,23 +30,30 @@ const products = [
 const total = products.reduce((soma, produto) => soma + produto[2], 0);
 
 function Lista(){
+  
+  const [valor, setValor] = useState(1);
+
     return (
       <>
-        <ScrollView style={styles.scrollViewContainer}>
-          {products.map((item, index) => (
+        <FlatList
+          data={products}
+          keyExtractor={(item, index) => index.toString() }
+          renderItem={({ item, index }) => (
             <View key={index} style={styles.productItem}>
               <Image source={item[0]} style={styles.scrollImages} />
               <Text style={styles.name}>{item[1]}</Text>
+              <CampoInteiro valor={valor} acao={setValor} />
               <Text style={styles.scrollPrices}>R$ {item[2].toFixed(2)}</Text>
             </View>
-          ))}
-        </ScrollView>
-        <Text style={styles.price}>Total: R$ ${total.toFixed(2)}</Text>
+          )}
+        />
+        <Text style={styles.price}>Total: R$ {total.toFixed(2)}</Text>
       </>
     );
 }
 
 export default Lista
+
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flex: 1,
@@ -66,6 +76,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     flex: 1,
+  },
+  quantity: {
+    flex: 1
   },
   scrollPrices: {
     fontSize: 16,
