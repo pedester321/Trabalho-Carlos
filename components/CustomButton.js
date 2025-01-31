@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 
-function CustomButton({ children, onPress }) {
+function CustomButton({ children, onPress, disabled = false }) {
   return (
     <View style={styles.buttonOuterContainer}>
       <Pressable
@@ -11,6 +11,7 @@ function CustomButton({ children, onPress }) {
         }
         onPress={onPress}
         android_ripple={{ color: "#023020" }}
+        disabled={disabled}
       >
         <Text style={styles.buttonText}>{children}</Text>
       </Pressable>
@@ -35,7 +36,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
   },
-
+  disabled: {
+    opacity: 0.5, // Make the button look disabled
+  },
+  disabledText: {
+    color: "#A0A0A0", // Change text color when disabled
+  },
   //IOS
   pressed: {
     opacity: 0.75,

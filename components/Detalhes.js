@@ -19,9 +19,6 @@ function Detalhes(){
           A loja de autopecas das melhores marcas pare seu veiculo!
         </Text>
         <Lista />
-        <View style={styles.buttonContainer}>
-          <CustomButton>Comprar</CustomButton>
-        </View>
       </>
     );
 }
@@ -47,9 +44,4 @@ const styles = StyleSheet.create({
     fontSize: 13,
     padding: 5,
   },
-  buttonContainer: {
-    paddingBottom: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  }
 })

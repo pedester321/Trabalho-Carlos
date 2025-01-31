@@ -1,14 +1,9 @@
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { Text, View, Image, StyleSheet, FlatList } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import NumberKeeper from "./NumberKeeper";
+import CustomButton from "./CustomButton";
 
 //imports das lista
 import pneu from "../assets/pneu2.png";
@@ -33,11 +28,8 @@ const products = [
   { id: "9", image: radiador, name: "Radiador", price: 170 },
 ];
 
-const hadleNumberChange = (number) => {
-  console.log(number);
-};
-
 function Lista() {
+  const navigation = useNavigation();
   // Estado para armazenar as quantidades de cada produto
   const [quantities, setQuantities] = useState({});
 
@@ -57,6 +49,11 @@ function Lista() {
     }, 0);
   };
 
+  // Mantem uma lista dos produtos selecionados
+  const selectedProducts = products.filter(
+    (product) => quantities[product.id] > 0
+  );
+
   return (
     <>
       <FlatList
@@ -72,6 +69,20 @@ function Lista() {
         )}
       />
       <Text style={styles.price}>Total: R$ {calcularTotal().toFixed(2)}</Text>
+      <View style={styles.buttonContainer}>
+        <CustomButton
+          onPress={() =>
+            navigation.navigate("SelectedProducts", {
+              selectedProducts,
+              quantities,
+              total: calcularTotal(),
+            })
+          }
+          disabled={selectedProducts.length === 0}
+        >
+          Comprar
+        </CustomButton>
+      </View>
     </>
   );
 }
@@ -114,5 +125,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     textAlign: "right",
+  },
+  buttonContainer: {
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 });

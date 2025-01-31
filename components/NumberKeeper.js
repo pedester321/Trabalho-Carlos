@@ -10,6 +10,8 @@ const NumberKeeper = ({ id, onNumberChange }) => {
     const quantity = parseInt(cleanedText, 10);
     if (!isNaN(quantity)) {
       onNumberChange(id, quantity); // Notifica o componente pai com o ID e a quantidade
+    }else{
+      onNumberChange(id, 0); // Caso o valor seja vazio, notifica o componente pai com o ID e a quantidade 0
     }
   };
 
