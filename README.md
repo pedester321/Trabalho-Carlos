@@ -26,3 +26,12 @@ Os arquivos dos componentes estão localizados na pasta `components`:
 
 - `Lista.js`: Refatoramos a lista de `Detalhes.js`.
 - `CustomButton`: Botão reutilizável usado em `Detalhes.js`.
+
+---
+
+# Trabalho 04 - Colocando um TextInput na quantidade de peças
+
+### **Modificações**
+
+- `NumberKeeper.js`: Componente que mantem a quantidade digitada para cada peça.
+- O total agora reflete a soma das quantidades de cada peça.

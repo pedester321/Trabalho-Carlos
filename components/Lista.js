@@ -1,7 +1,14 @@
-import { Text, View, Image, StyleSheet, ScrollView, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import React, { useState } from "react";
 
-import CampoInteiro from "./CampoInteiro";
+import NumberKeeper from "./NumberKeeper";
 
 //imports das lista
 import pneu from "../assets/pneu2.png";
@@ -15,44 +22,61 @@ import bater from "../assets/bater.png";
 import radiador from "../assets/radiador.png";
 
 const products = [
-  [pneu, "Pneu", 249.4],
-  [vela, "Vela", 10.2],
-  [escap, "Escapamento", 110.07],
-  [embreagem, "Embreagem", 320.02],
-  [amort, "Amortecedor", 235.9],
-  [disco, "Disco", 623.3],
-  [piston, "Óleo", 40.4],
-  [bater, "Bateria", 360.6],
-  [radiador, "Radiador", 170],
+  { id: "1", image: pneu, name: "Pneu", price: 249.4 },
+  { id: "2", image: vela, name: "Vela", price: 10.2 },
+  { id: "3", image: escap, name: "Escapamento", price: 110.07 },
+  { id: "4", image: embreagem, name: "Embreagem", price: 320.02 },
+  { id: "5", image: amort, name: "Amortecedor", price: 235.9 },
+  { id: "6", image: disco, name: "Disco", price: 623.3 },
+  { id: "7", image: piston, name: "Óleo", price: 40.4 },
+  { id: "8", image: bater, name: "Bateria", price: 360.6 },
+  { id: "9", image: radiador, name: "Radiador", price: 170 },
 ];
 
-//somando o total da lista
-const total = products.reduce((soma, produto) => soma + produto[2], 0);
+const hadleNumberChange = (number) => {
+  console.log(number);
+};
 
-function Lista(){
-  
-  const [valor, setValor] = useState(1);
+function Lista() {
+  // Estado para armazenar as quantidades de cada produto
+  const [quantities, setQuantities] = useState({});
 
-    return (
-      <>
-        <FlatList
-          data={products}
-          keyExtractor={(item, index) => index.toString() }
-          renderItem={({ item, index }) => (
-            <View key={index} style={styles.productItem}>
-              <Image source={item[0]} style={styles.scrollImages} />
-              <Text style={styles.name}>{item[1]}</Text>
-              <CampoInteiro valor={valor} acao={setValor} />
-              <Text style={styles.scrollPrices}>R$ {item[2].toFixed(2)}</Text>
-            </View>
-          )}
-        />
-        <Text style={styles.price}>Total: R$ {total.toFixed(2)}</Text>
-      </>
-    );
+  // Função para atualizar a quantidade de um produto específico
+  const handleQuantityChange = (id, quantity) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: quantity, // Atualiza a quantidade do produto com o ID correspondente
+    }));
+  };
+
+  // Função para calcular o total da compra
+  const calcularTotal = () => {
+    return products.reduce((total, product) => {
+      const quantity = quantities[product.id] || 0; // Quantidade digitada (ou 0 se não houver)
+      return total + product.price * quantity;
+    }, 0);
+  };
+
+  return (
+    <>
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.productItem}>
+            <Image source={item.image} style={styles.scrollImages} />
+            <Text style={styles.name}>{item.name}</Text>
+            <NumberKeeper id={item.id} onNumberChange={handleQuantityChange} />
+            <Text style={styles.scrollPrices}>R$ {item.price.toFixed(2)}</Text>
+          </View>
+        )}
+      />
+      <Text style={styles.price}>Total: R$ {calcularTotal().toFixed(2)}</Text>
+    </>
+  );
 }
 
-export default Lista
+export default Lista;
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
@@ -78,7 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   quantity: {
-    flex: 1
+    flex: 1,
   },
   scrollPrices: {
     fontSize: 16,
